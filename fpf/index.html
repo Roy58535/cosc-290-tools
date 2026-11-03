@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Permutation swap graph</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div><p class="eyebrow">DISCRETE STRUCTURES · EXPLORER</p><h1>Permutation swap graph</h1><p>Every permutation. Every single swap. Starting from identity.</p><a href="cycles.html">Explore cycles &amp; fixed points →</a></div>
+    <form id="controls"><label for="size">Integers 1 through n</label><div class="input-row"><input id="size" type="number" min="1" max="6" value="4" required><button>Draw graph</button></div></form>
+  </header>
+  <main>
+    <section class="toolbar" aria-label="Graph controls"><div id="stats"></div><div class="tools"><label><input id="edges" type="checkbox" checked> All edges</label><button id="zoom-out" title="Zoom out" aria-label="Zoom out">−</button><button id="zoom-in" title="Zoom in" aria-label="Zoom in">+</button><button id="fit">Fit</button><button id="clear">Clear selection</button></div></section>
+    <div id="legend" class="legend"></div>
+    <div id="viewport"><svg id="graph" role="img" aria-label="Permutations arranged by minimum swap distance"></svg></div>
+    <section class="bottom"><div id="selection" aria-live="polite">Select a node to highlight all permutations one swap away.</div><p>Swap any two positions. Layer = minimum swaps from identity.<br>A fixed-point-free (FPF) permutation has no value equal to its 1-based position.</p></section>
+    <p class="note">Scroll to zoom · Drag to pan · Click a node to inspect · n is limited to 6 (720 nodes) to keep this viewer lightweight. Arrow keys move between nodes; Enter selects.</p>
+  </main>
+  <script src="graph.js"></script><script src="app.js"></script>
+</body>
+</html>

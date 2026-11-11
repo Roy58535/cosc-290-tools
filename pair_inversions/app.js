@@ -34,15 +34,32 @@ if (typeof document !== 'undefined') {
     sorted: 'Rows are sorted by tail inversion count, with lexicographic order breaking ties. Equal-X bands form continuous stair steps; repeated tail counts give different band widths.',
     grouped: 'One equal-height row per tail inversion count t. Each cell contains all matching permutations, with X = t + k - 1. Equal counts now form straight diagonals. Scroll inside a cell to inspect its permutations.'
   };
-  const color = x => `hsl(${Math.round(45 + 265 * x / Math.max(1, maximum))} 55% 85%)`;
+  // BuPu sequential palette, interpolated from pale blue to deep purple.
+  const stops = ['#f7fcfd', '#e0ecf4', '#bfd3e6', '#9ebcda', '#8c96c6', '#8c6bb1', '#88419d', '#810f7c', '#4d004b']
+    .map(hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16)));
+  function rgb(x) {
+    const position = x / Math.max(1, maximum) * (stops.length - 1);
+    const i = Math.min(Math.floor(position), stops.length - 2);
+    return stops[i].map((v, c) => Math.round(v + (stops[i + 1][c] - v) * (position - i)));
+  }
+  const color = x => `rgb(${rgb(x).join(',')})`;
+  function ink(x) {
+    const linear = rgb(x).map(v => v / 255).map(v => v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+    const luminance = linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
+    return luminance > 0.179 ? '#000' : '#fff';
+  }
   function paint() {
     document.querySelectorAll('td[data-x]').forEach(cell => {
       const x = Number(cell.dataset.x);
       cell.style.backgroundColor = $('colors').checked ? color(x) : '';
+      cell.style.color = $('colors').checked ? ink(x) : '';
       cell.classList.toggle('dim', active !== null && x !== active);
       cell.classList.toggle('selected', cell.dataset.key === selected);
     });
-    document.querySelectorAll('#legend button').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.x) === active)));
+    document.querySelectorAll('#legend button').forEach(button => {
+      button.setAttribute('aria-pressed', String(Number(button.dataset.x) === active));
+      button.style.color = ink(Number(button.dataset.x));
+    });
     const count = rows.flat(2).filter(entry => entry.x === active).length;
     $('filter-status').textContent = active === null ? 'Showing all inversion counts.' : `${count.toLocaleString()} permutations with X = ${active}.`;
   }

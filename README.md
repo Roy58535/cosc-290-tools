@@ -13,3 +13,7 @@ Each sub-directory contains a small tool for a problem / illustration.
 ### Permutations, Swaps, Cycles and FPF
 
 `fpf` is a tool for visualizing permutations, swaps and cycles regarding permutations, and how FPF permutations are related.
+
+### Permutation Inversions
+
+`pair_inversions` is an interactive permutation inversion explorer that visualizes the inversion counts in sorted and arranged permutations.

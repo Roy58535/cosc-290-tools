@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Permutation inversions</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<main>
+  <header><p class="eyebrow">COSC 290 / DISCRETE STRUCTURES</p><h1>Permutation inversions<span>.</span></h1>
+  <p class="intro">Count the out-of-order pairs. Follow the color to see how equal counts form tilted strips across the table.</p></header>
+  <nav class="view-tabs" aria-label="Table arrangement">
+    <button type="button" data-view="lex" aria-pressed="true">Lexicographic</button>
+    <button type="button" data-view="sorted" aria-pressed="false">Sorted by inversions</button>
+    <button type="button" data-view="grouped" aria-pressed="false">Grouped diagonal strips</button>
+  </nav>
+  <p id="view-description"></p>
+  <section class="toolbar" aria-label="Table controls">
+    <label>Permutation size <select id="size"><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option><option>7</option></select></label>
+    <label class="check"><input type="checkbox" id="colors" checked> Color by X</label>
+    <button id="clear" type="button">Clear highlight</button><span id="stats"></span>
+  </section>
+  <section class="explanation"><div><h2>What counts as an inversion?</h2><p>A pair of positions i &lt; j with a<sub>i</sub> &gt; a<sub>j</sub>. For <strong>2 4 1 3</strong>, the pairs (2, 1), (4, 1), (4, 3) give <strong>X = 3</strong>. All pairs count, including nonadjacent ones.</p></div>
+  <div><h2>Why the tilted strips?</h2><p>Each row has the same relative ordering in its tail. Starting with k adds k − 1 inversions, so <strong>X = tail inversions + k − 1</strong>. Counts rise by one across a row. Equal colors trace diagonal fragments; the pattern resets as the tail ordering changes.</p></div></section>
+  <section class="legend-section" aria-label="Highlight an inversion count"><p class="hint">HIGHLIGHT X <span>Choose a count to trace its strips. Select a permutation to inspect its pairs.</span></p><div id="legend"></div><p id="filter-status" aria-live="polite"></p></section>
+  <section id="detail" aria-live="polite"><span class="detail-label">PAIR INSPECTOR</span><p>Select any permutation below.</p></section>
+  <div class="table-wrap"><table id="permutations"><caption>Permutations in lexicographic order within each starting-number column.</caption><thead></thead><tbody></tbody></table></div>
+  <footer>Generated locally in your browser · No dependencies · n ≤ 7 keeps the full table lightweight</footer>
+</main>
+</body>
+</html>
